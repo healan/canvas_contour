@@ -61,7 +61,7 @@ def getContours(filename):
     image = cv2.imread(path)
 
     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    ret, thresh = cv2.threshold(image_gray, 230, 255, 0)
+    ret, thresh = cv2.threshold(image_gray, 100, 255, 0)
     thresh = cv2.bitwise_not(thresh)
 
     # plt.imshow(cv2.cvtColor(thresh, cv2.COLOR_GRAY2RGB))
@@ -75,7 +75,7 @@ def getContours(filename):
     print("contours = ", contours)
 
     plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-    plt.show()
+    # plt.show()
     cv2.imwrite(SAVE_DIR+'\\'+filename, image)
 
     return {
