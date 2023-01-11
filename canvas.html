@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Canvas Study</title>
+
+    <script type="text/javascript">
+        var gl;
+
+        function draw(){
+            let canvas = document.getElementById('tutorial');
+            if (canvas.getContext){
+                let ctx = canvas.getContext('2d'); //랜더링 컨텍스트 타입 지정
+
+                ctx.fillStyle = "rgb(200,0,0)";
+                ctx.fillRect(50,50,100,100); // 색칠된 직사각형 (x,y,width,height)
+                ctx.strokeRect(20,30,30,30); //직사각형 윤관선 (x,y,width,height)
+                ctx.clearRect(20,30,10,10); //특정 부분을 지우는 직사각형 (x,y,width,height)
+            };
+        };
+
+        function drawSmile(){
+            let canvas = document.getElementById('smile');
+            if (canvas.getContext){
+                let ctx = canvas.getContext('2d'); //랜더링 컨텍스트 타입 지정
+                
+                ctx.beginPath(); //새로운 경로 생성 
+                ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle => arc(x, y, radius, startAngle, endAngle, anticlockwise)
+                ctx.moveTo(110, 75);
+                ctx.arc(75, 75, 35, 0, Math.PI, false);  // Mouth (clockwise)
+                ctx.moveTo(65, 65);
+                ctx.arc(60, 65, 5, 0, Math.PI * 2, true);  // Left eye
+                ctx.moveTo(95, 65);
+                ctx.arc(90, 65, 5, 0, Math.PI * 2, true);  // Right eye
+                ctx.stroke();
+            };
+        };
+
+        function drawText(){
+            let canvas = document.getElementById('smile');
+            if (canvas.getContext){
+                let ctx = canvas.getContext('2d'); //랜더링 컨텍스트 타입 지정
+                
+                ctx.font = '48px serif';
+                ctx.fillText("hi, canvas", 10, 50);
+            };
+        };
+
+
+        function threedTest(){
+            const canvas = document.getElementById('excanvas');
+            // const ctx = canvas.getContext('experimental-webgl');
+
+            gl = initWebGL(canvas);      // Initialize the GL context
+
+            // Only continue if WebGL is available and working
+
+            if (gl) {
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);                      // Set clear color to black, fully opaque
+                gl.enable(gl.DEPTH_TEST);                               // Enable depth testing
+                gl.depthFunc(gl.LEQUAL);                                // Near things obscure far things
+                gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);      // Clear the color as well as the depth buffer.
+            };
+
+        };
+
+        function initWebGL(canvas) {
+            gl = null;
+
+            try {
+                // Try to grab the standard context. If it fails, fallback to experimental.
+                gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+            }
+            catch(e) {}
+
+            // If we don't have a GL context, give up now
+            if (!gl) {
+                alert("Unable to initialize WebGL. Your browser may not support it.");
+                gl = null;
+            }
+
+            return gl;
+        };
+
+    </script>
+
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+
+  </head>
+
+  <body 
+    onload=
+    "
+    // draw();
+    // drawSmile();
+    // drawText();
+    threedTest();
+    "
+    >
+    <canvas id="tutorial" width="600" height="600"></canvas>
+    <canvas id="smile" width="500" height="500"></canvas>
+    <canvas id="excanvas" width="500" height="500"></canvas>
+  </body>
+
+</html>
